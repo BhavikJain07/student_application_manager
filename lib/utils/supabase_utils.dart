@@ -7,26 +7,31 @@ Future<PostgrestList> fetchAllStudents() async {
   return data;
 }
 
-Future<bool> handleCreateNewStudent(String studentName, String xiiPercentage,
-    String xPercentage, List<String> selectedDepartments) async {
-  if (studentName.isEmpty || studentName == "") {
+Future<bool> handleCreateNewStudent(
+    String firstName,
+    String lastName,
+    String xiiPercentage,
+    String xPercentage,
+    String phone,
+    String address,
+    bool gender,
+    bool hostelRequired,
+    List<String> selectedDepartments) async {
+  try {
+    final data = await supabase.from("students").insert({
+      "firstName": firstName,
+      "lastName": lastName,
+      "xiiPercentage": xiiPercentage,
+      "xPercentage": xPercentage,
+      "phoneNumber": phone,
+      "address": address,
+      "gender": gender,
+      "hostelRequired": hostelRequired,
+      "selectedDepartments": selectedDepartments,
+    });
+  } catch (error) {
     return false;
   }
-  if (xiiPercentage.isEmpty || xiiPercentage == "") {
-    return false;
-  }
-  if (xPercentage.isEmpty || xPercentage == "") {
-    return false;
-  }
-  if (selectedDepartments.isEmpty) {
-    return false;
-  }
-  await supabase.from("students").insert({
-    "student_name": studentName.toString().trim(),
-    "xii_percentage": xiiPercentage.toString().trim(),
-    "x_percentage": xPercentage.toString().trim(),
-    "selectedDepartments": selectedDepartments,
-  });
   return true;
 }
 
@@ -36,23 +41,15 @@ Future<PostgrestList> fetchFilteredStudents(
     final data = await supabase
         .from("students")
         .select()
-        .order("xii_percentage", ascending: false)
-        .order("x_percentage", ascending: false);
-    final filteredData = data.where((element) {
-      return element["selectedDepartments"]
-          .toString()
-          .toLowerCase()
-          .contains(searchQuery.toLowerCase());
-    }).toList();
-    return filteredData;
+        .order("xiiPercentage", ascending: false)
+        .order("xPercentage", ascending: false);
+    print(data);
+    return data;
   } else {
-    final data = await supabase.from("students").select();
-    final filteredData = data.where((element) {
-      return element["selectedDepartments"]
-          .toString()
-          .toLowerCase()
-          .contains(searchQuery.toLowerCase());
-    }).toList();
-    return filteredData;
+    final data = await supabase
+        .from("students")
+        .select();
+    print(data);
+    return data;
   }
 }

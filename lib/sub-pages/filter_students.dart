@@ -13,7 +13,8 @@ class _FilterStudentsState extends State<FilterStudents> {
   bool rankFilter = false;
 
   void _fetchStudents() async {
-    final List<Map<dynamic, dynamic>> data = await fetchFilteredStudents("bcom", rankFilter);
+    final List<Map<dynamic, dynamic>> data =
+        await fetchFilteredStudents("bcom", rankFilter);
     setState(() {
       _filteredStudents = data;
     });
@@ -68,9 +69,9 @@ class _FilterStudentsState extends State<FilterStudents> {
             itemCount: _filteredStudents.length,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                title: Text(_filteredStudents[index]["student_name"]),
+                title: Text(_filteredStudents[index]["firstName"]),
                 subtitle: Text(
-                    "XII: ${_filteredStudents[index]["xii_percentage"]} | X: ${_filteredStudents[index]["x_percentage"]}"),
+                    "XII: ${_filteredStudents[index]["xiiPercentage"]} | X: ${_filteredStudents[index]["xPercentage"]}"),
               );
             },
           ),

@@ -37,7 +37,7 @@ class _AllStudentsState extends State<AllStudents> {
                 title: Text(
                   _students[index]["id"].toString(),
                 ),
-                subtitle: Text("Student Name: ${_students[index]["student_name"].toString()} | XII: ${_students[index]["xii_percentage"].toString()} | X: ${_students[index]["x_percentage"].toString()} | ${_students[index]["selectedDepartments"].toString()}"),
+                subtitle: Text("Student Name: ${_students[index]["firstName"].toString()} | XII: ${_students[index]["xiiPercentage"].toString()} | X: ${_students[index]["xPercentage"].toString()} | ${_students[index]["selectedDepartments"].toString()}"),
               );
             },
           ),
