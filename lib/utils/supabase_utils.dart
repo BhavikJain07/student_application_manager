@@ -18,7 +18,7 @@ Future<bool> handleCreateNewStudent(
     bool hostelRequired,
     List<String> selectedDepartments) async {
   try {
-    final data = await supabase.from("students").insert({
+    await supabase.from("students").insert({
       "firstName": firstName,
       "lastName": lastName,
       "xiiPercentage": xiiPercentage,
@@ -43,13 +43,25 @@ Future<PostgrestList> fetchFilteredStudents(
         .select()
         .order("xiiPercentage", ascending: false)
         .order("xPercentage", ascending: false);
-    print(data);
-    return data;
+    final filteredData = data.where((i) {
+      return i["selectedDepartments"].contains(searchQuery);
+    }).toList();
+    return filteredData;
   } else {
-    final data = await supabase
-        .from("students")
-        .select();
-    print(data);
-    return data;
+    final data = await supabase.from("students").select();
+    final filteredData = data.where((i) {
+      return i["selectedDepartments"].contains(searchQuery);
+    }).toList();
+    return filteredData;
+  }
+}
+
+Future<bool> handleDeleteStudent(String id) async {
+  try {
+    print(id);
+    await supabase.from("students").delete().eq("id", id);
+    return true;
+  } catch (error) {
+    return false;
   }
 }

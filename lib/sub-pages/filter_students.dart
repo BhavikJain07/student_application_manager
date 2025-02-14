@@ -10,11 +10,15 @@ class FilterStudents extends StatefulWidget {
 
 class _FilterStudentsState extends State<FilterStudents> {
   List<Map<dynamic, dynamic>> _filteredStudents = <Map<dynamic, dynamic>>[];
+  final TextEditingController _filterTextEditingController = TextEditingController();
   bool rankFilter = false;
 
   void _fetchStudents() async {
+    setState(() {
+      _filteredStudents = [];
+    });
     final List<Map<dynamic, dynamic>> data =
-        await fetchFilteredStudents("bcom", rankFilter);
+        await fetchFilteredStudents(_filterTextEditingController.text, rankFilter);
     setState(() {
       _filteredStudents = data;
     });
@@ -28,6 +32,7 @@ class _FilterStudentsState extends State<FilterStudents> {
           children: <Widget>[
             Expanded(
               child: TextField(
+                controller: _filterTextEditingController,
                 decoration: InputDecoration(
                   hintText: "Search",
                   label: Text("Search"),

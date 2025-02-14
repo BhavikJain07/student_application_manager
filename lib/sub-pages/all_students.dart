@@ -24,6 +24,20 @@ class _AllStudentsState extends State<AllStudents> {
     });
   }
 
+  Future<void> deleteStudent(String id) async {
+    final result = await handleDeleteStudent(id);
+    print(result);
+    // if (result) {
+    //   fetchStudents();
+    // } else {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //       content: Text("Failed to delete student"),
+    //     ),
+    //   );
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,10 +48,26 @@ class _AllStudentsState extends State<AllStudents> {
             itemCount: _students.length,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                title: Text(
-                  _students[index]["id"].toString(),
+                title: Text("Application ID: ${_students[index]["id"]}"),
+                subtitle: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                        "Name: ${_students[index]["firstName"]} ${_students[index]["lastName"]}"),
+                    Text("Phone: ${_students[index]["phoneNumber"]}"),
+                    Text(
+                        "XII: ${_students[index]["xiiPercentage"]} | X: ${_students[index]["xPercentage"]}"),
+                    Text(
+                        "Selected Departments: ${_students[index]["selectedDepartments"]}"),
+                  ],
                 ),
-                subtitle: Text("Student Name: ${_students[index]["firstName"].toString()} | XII: ${_students[index]["xiiPercentage"].toString()} | X: ${_students[index]["xPercentage"].toString()} | ${_students[index]["selectedDepartments"].toString()}"),
+                trailing: IconButton(
+                    onPressed: () {
+                      deleteStudent(_students[index]["id"].toString());
+                    },
+                    icon: Icon(Icons.delete)),
+                onTap: () {},
               );
             },
           ),
