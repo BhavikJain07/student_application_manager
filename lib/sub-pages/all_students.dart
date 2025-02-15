@@ -26,16 +26,15 @@ class _AllStudentsState extends State<AllStudents> {
 
   Future<void> deleteStudent(String id) async {
     final result = await handleDeleteStudent(id);
-    print(result);
-    // if (result) {
-    //   fetchStudents();
-    // } else {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(
-    //       content: Text("Failed to delete student"),
-    //     ),
-    //   );
-    // }
+    if (result) {
+      fetchStudents();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Failed to delete student"),
+        ),
+      );
+    }
   }
 
   @override

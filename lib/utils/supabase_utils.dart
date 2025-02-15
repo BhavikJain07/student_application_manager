@@ -58,7 +58,6 @@ Future<PostgrestList> fetchFilteredStudents(
 
 Future<bool> handleDeleteStudent(String id) async {
   try {
-    print(id);
     await supabase.from("students").delete().eq("id", id);
     return true;
   } catch (error) {
